@@ -4,7 +4,7 @@
     {# form 的请求方法为 post #}
     {# enctype 属性为 "multipart/form-data" 才能正确发送 #}
     {# 发送到的网址 save_profile 将在下面 url 中定义 #}
-    <form enctype="multipart/form-data" action="{% url "save_profile" %}" method="POST">
+    <form enctype="multipart/form-data" action="{% url "save_photo" %}" method="POST">
 
     {# csrf许可标签，需要该标签才能发送请求 #}
     {% csrf_token %}

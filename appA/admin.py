@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Photos
 
 admin.site.site_header = '登录'
 
 admin.site.site_title = '用户登录title'
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'picture')
+@admin.register(Photos)
+class PhotosAdmin(admin.ModelAdmin):
+    list_display = ('name', 'image')
