@@ -15,9 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('appA.urls')),
-    url(r'api', include('appAPI.urls'))
+    url(r'api', include('appAPI.urls')),
 ]
+
+# 增加异常条目
+handler400 = views.bad_request
+handler403 = views.permission_denied
+handler404 = views.page_not_found
+handler500 = views.page_error

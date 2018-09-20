@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render,redirect
 from .forms import PhotosForm # 上传图片的图表
 from .models import Photos # 保存上传图片相关信息的模型
