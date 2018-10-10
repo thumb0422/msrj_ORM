@@ -53,3 +53,13 @@ class Book(models.Model):#书
         db_table = 'book'
         verbose_name = '书名'
         verbose_name_plural = '书名'
+
+
+class Hero(models.Model):
+    headshot = models.ImageField(null=True, blank=True, upload_to="hero_headshots/")
+
+    # def __str__(self):
+    #     return self.headshot
+
+    class Meta:
+        db_table ='hero'

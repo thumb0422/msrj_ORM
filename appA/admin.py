@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Photos,Author,Publisher,Book,Product
+from .models import Photos,Author,Publisher,Book,Hero
 
 admin.site.site_header = '登录'
 
@@ -32,3 +32,16 @@ class BookAdmin(admin.ModelAdmin):
     raw_id_fields = ('author', 'publisher',)
     # 显示过滤字段
     list_filter = ('author',)
+
+from django.utils.safestring import mark_safe
+@admin.register(Hero)
+class HeroAdmin(admin.ModelAdmin):
+    readonly_fields = [..., "headshot_image"]
+
+    def headshot_image(self, obj):
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url=obj.headshot.url,
+            width=obj.headshot.width,
+            height=obj.headshot.height,
+        )
+        )
