@@ -37,12 +37,25 @@ from .models import Hero
 from django.utils.safestring import mark_safe
 @admin.register(Hero)
 class HeroAdmin(admin.ModelAdmin):
-    readonly_fields = ['headshot_image']
+    # readonly_fields = ['headshot_image']
+    #
+    # def headshot_image(self, obj):
+    #     return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+    #         url=obj.headshot.url,
+    #         width=obj.headshot.width,
+    #         height=obj.headshot.height,
+    #     )
+    #     )
 
-    def headshot_image(self, obj):
-        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
-            url=obj.headshot.url,
-            width=obj.headshot.width,
-            height=obj.headshot.height,
-        )
-        )
+    def upload_img(self, obj):
+        try:
+            img = mark_safe('''<a href="%s"><img src="%s" width="50px" /></a>''' % (obj.image.url, obj.image.url))
+        except Exception as e:
+            img = ''
+        return img
+
+    upload_img.short_description = 'Thumb'
+    upload_img.allow_tags = True
+
+    list_display = ['id', 'image', 'upload_img']
+    readonly_fields = ['upload_img']
