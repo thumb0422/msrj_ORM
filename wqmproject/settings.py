@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
+ADMIN_SITE_HEADER = '上海星沃信息科技有限公司'
 
 # Application definition
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     # 'bootstrap4',   #pip install django-bootstrap4
     'appA',
     'appAPI',
+    'app001',
 ]
 
 MIDDLEWARE = [
