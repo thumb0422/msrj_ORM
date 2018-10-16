@@ -7,6 +7,7 @@ class ProductType(models.Model):
 
     typeId = models.CharField(max_length=20,blank=False,verbose_name='分类代码')
     name = models.CharField(max_length=40,blank=False,verbose_name='分类名称')
+    isValid = models.BooleanField(default=True,verbose_name='有效')
     create_Date = models.DateTimeField(default = timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
 
@@ -27,6 +28,7 @@ class ProductInfo(models.Model):
     costPrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='成本价')
     salePrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='销售价')
     productImage = models.ImageField(null=True, blank=True, verbose_name='上传图片',upload_to="product/")
+    isValid = models.BooleanField(default=True, verbose_name='有效')
     create_Date = models.DateTimeField(default = timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
     # creat_by = models.ForeignKey() #最好是加载登录用户
