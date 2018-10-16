@@ -6,7 +6,7 @@ from .models import ProductType,ProductInfo
 @admin.register(ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
     list_display = ['typeId','name']
-    # fields = ('typeId', 'name')  #显示可编辑的字段，但是会把create_date 报错
+    fields = ('typeId', 'name')
     ordering = ('typeId',)
 
 @admin.register(ProductInfo)
@@ -18,9 +18,9 @@ class ProductInfoAdmin(admin.ModelAdmin):
             img = ''
         return img
 
-    upload_img.short_description = '图片'
+    upload_img.short_description = '缩略图'
     upload_img.allow_tags = True
     list_display = ['productId','name','typeId','costPrice','salePrice', 'upload_img']
     readonly_fields = ['upload_img']
-    # fields = ('productId', 'name', 'typeId', 'costPrice','salePrice',) #显示可编辑的字段，但是会把create_date 报错
+    fields = ('typeId', 'productId', 'name', 'costPrice','salePrice','productImage','upload_img') #显示可编辑的字段，但是会把create_date 报错
     ordering = ('typeId',)
