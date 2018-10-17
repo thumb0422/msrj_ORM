@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 #产品分类
 class ProductType(models.Model):
@@ -31,12 +32,13 @@ class ProductInfo(models.Model):
     isValid = models.BooleanField(default=True, verbose_name='有效')
     create_Date = models.DateTimeField(default = timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
-    # creat_by = models.ForeignKey() #最好是加载登录用户
+    creat_by = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, blank=True, on_delete=models.SET_NULL)
 
     # def save(self):
     ##overrite 会不显示图片
     #     self.productImage = 'product/' + generate_random_str(8)+'.png';
     #     super(ProductInfo,self).save()
+
 
     class Meta:
         db_table = 'product'

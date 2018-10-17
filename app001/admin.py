@@ -11,9 +11,21 @@ class ProductTypeAdmin(admin.ModelAdmin):
 
 @admin.register(ProductInfo)
 class ProductInfoAdmin(admin.ModelAdmin):
+
+    '''create_by 修改时为当前用户'''
+    def save_model(self, request, obj, form, change):
+        obj.creat_by = request.user
+        super().save_model(request, obj, form, change)
+
+    '''过滤出分类isValid=True的数据'''
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "typeId":
+            kwargs["queryset"] = ProductType.objects.filter(isValid=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     def upload_img(self, obj):
         try:
-            img = mark_safe('''<a href="%s"><img src="%s" width="50px" /></a>''' % (obj.productImage.url, obj.productImage.url))
+            img = mark_safe('''<a href="%s"><img src="%s" height="30px" width="30px" /></a>''' % (obj.productImage.url, obj.productImage.url))
         except Exception as e:
             img = ''
         return img
