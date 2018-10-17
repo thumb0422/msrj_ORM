@@ -6,7 +6,7 @@ from django.conf import settings
 #产品分类
 class ProductType(models.Model):
 
-    typeId = models.CharField(max_length=20,blank=False,verbose_name='分类代码')
+    typeId = models.CharField(max_length=20,unique=True,blank=False,verbose_name='分类代码')
     name = models.CharField(max_length=40,blank=False,verbose_name='分类名称')
     isValid = models.BooleanField(default=True,verbose_name='有效')
     create_Date = models.DateTimeField(default = timezone.now)
@@ -29,7 +29,7 @@ class ProductInfo(models.Model):
 
     productId = models.CharField(max_length=10,blank=False,verbose_name='产品代码')
     name = models.CharField(max_length=100, blank=False,verbose_name='产品名称')
-    typeId = models.ForeignKey(ProductType,on_delete=models.DO_NOTHING,verbose_name='所属分类')
+    typeId = models.ForeignKey(ProductType,to_field='typeId',on_delete=models.DO_NOTHING,verbose_name='所属分类')
     costPrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='成本价')
     salePrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='销售价')
     productImage = models.ImageField(null=True, blank=True, verbose_name='上传图片', upload_to=upload_location)
