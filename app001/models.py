@@ -23,22 +23,20 @@ class ProductType(models.Model):
 #产品详情
 class ProductInfo(models.Model):
 
+    def upload_location(instance, filename):
+        extension = filename.split(".")[-1]
+        return "{0}/{1}.{2}".format(instance._meta.app_label,generate_random_str(12), extension)
+
     productId = models.CharField(max_length=10,blank=False,verbose_name='产品代码')
     name = models.CharField(max_length=100, blank=False,verbose_name='产品名称')
     typeId = models.ForeignKey(ProductType,on_delete=models.DO_NOTHING,verbose_name='所属分类')
     costPrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='成本价')
     salePrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='销售价')
-    productImage = models.ImageField(null=True, blank=True, verbose_name='上传图片',upload_to="product/")
+    productImage = models.ImageField(null=True, blank=True, verbose_name='上传图片', upload_to=upload_location)
     isValid = models.BooleanField(default=True, verbose_name='有效')
     create_Date = models.DateTimeField(default = timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
     creat_by = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, blank=True, on_delete=models.SET_NULL)
-
-    # def save(self):
-    ##overrite 会不显示图片
-    #     self.productImage = 'product/' + generate_random_str(8)+'.png';
-    #     super(ProductInfo,self).save()
-
 
     class Meta:
         db_table = 'product'
