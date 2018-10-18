@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from utility import strExtension
 
 #产品分类
 class ProductType(models.Model):
@@ -25,9 +26,9 @@ class ProductInfo(models.Model):
 
     def upload_location(instance, filename):
         extension = filename.split(".")[-1]
-        return "{0}/{1}.{2}".format(instance._meta.app_label,generate_random_str(12), extension)
+        return "{0}/{1}.{2}".format(instance._meta.app_label,strExtension.generate_random_str(12), extension)
 
-    productId = models.CharField(max_length=10,blank=False,verbose_name='产品代码')
+    productId = models.CharField(unique=True,max_length=10,blank=False,verbose_name='产品代码')
     name = models.CharField(max_length=100, blank=False,verbose_name='产品名称')
     typeId = models.ForeignKey(ProductType,to_field='typeId',on_delete=models.DO_NOTHING,verbose_name='所属分类')
     costPrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='成本价')
@@ -46,10 +47,19 @@ class ProductInfo(models.Model):
     def __str__(self):
         return self.name
 
-import random
-import string
 
-def generate_random_str(randomlength=16):
-    str_list = [random.choice(string.digits + string.ascii_letters) for i in range(randomlength)]
-    random_str = ''.join(str_list)
-    return random_str
+'''订单主表'''
+class OrderMain(models.Model):
+    orderId = models.CharField(unique=True,max_length=12,blank=False,verbose_name='订单ID',default=strExtension.generate_orderId('OR'))
+    sumAmount = models.DecimalField(max_digits=13,decimal_places=3,verbose_name='订单总价')
+    isValid = models.BooleanField(default=True, verbose_name='有效')
+    comment = models.TextField(verbose_name='备注')
+    create_Date = models.DateTimeField(default=timezone.now)
+    update_Date = models.DateTimeField(auto_now=True)
+    creat_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+
+'''订单从表'''
+class OrderDetail(models.Model):
+    orderId = models.ForeignKey(OrderMain,to_field='orderId',on_delete=models.DO_NOTHING,verbose_name='订单ID')
+    productId = models.ForeignKey(ProductInfo, to_field='productId', on_delete=models.DO_NOTHING, verbose_name='产品')
+    orderCount = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='数量')

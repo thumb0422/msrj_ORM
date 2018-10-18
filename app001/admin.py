@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import ProductType,ProductInfo
+from .models import ProductType,ProductInfo,OrderMain,OrderDetail
 
 @admin.register(ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
@@ -36,3 +36,13 @@ class ProductInfoAdmin(admin.ModelAdmin):
     readonly_fields = ['upload_img']
     fields = ('typeId', 'productId', 'name', 'costPrice','salePrice','productImage','upload_img','isValid') #显示可编辑的字段，但是会把create_date 报错
     ordering = ('typeId',)
+
+class OrderDetailInLine(admin.TabularInline):
+    model = OrderDetail
+    extra = 10
+
+@admin.register(OrderMain)
+class OrderMainAdmin(admin.ModelAdmin):
+    inlines = [OrderDetailInLine,]
+    list_display = ['comment','isValid']
+
