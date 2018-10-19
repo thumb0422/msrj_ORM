@@ -50,7 +50,10 @@ class ProductInfo(models.Model):
 
 '''订单主表'''
 class OrderMain(models.Model):
-    orderId = models.CharField(unique=True,max_length=12,blank=False,verbose_name='订单ID',default=strExtension.generate_orderId('OR'))
+    def getGenerateOrderId(preStr):
+        return strExtension.generate_orderId(preStr)
+
+    orderId = models.CharField(unique=True, max_length=30, verbose_name='订单ID',default=getGenerateOrderId('OR'))
     sumAmount = models.DecimalField(max_digits=13,decimal_places=3,verbose_name='订单总价')
     isValid = models.BooleanField(default=True, verbose_name='有效')
     comment = models.TextField(verbose_name='备注')
@@ -58,8 +61,24 @@ class OrderMain(models.Model):
     update_Date = models.DateTimeField(auto_now=True)
     creat_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        db_table = 'orderMain'
+        verbose_name = '订单'
+        verbose_name_plural = '订单'
+
+    def __str__(self):
+        return self.orderId
+
 '''订单从表'''
 class OrderDetail(models.Model):
     orderId = models.ForeignKey(OrderMain,to_field='orderId',on_delete=models.DO_NOTHING,verbose_name='订单ID')
     productId = models.ForeignKey(ProductInfo, to_field='productId', on_delete=models.DO_NOTHING, verbose_name='产品')
     orderCount = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='数量')
+
+    class Meta:
+        db_table = 'orderDetail'
+        verbose_name = '订单明细'
+        verbose_name_plural = '订单明细'
+
+    def __str__(self):
+        return self.orderId

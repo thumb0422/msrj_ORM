@@ -39,7 +39,7 @@ class ProductInfoAdmin(admin.ModelAdmin):
 
 class OrderDetailInLine(admin.TabularInline):
     model = OrderDetail
-    extra = 10
+    extra = 1
 
 @admin.register(OrderMain)
 class OrderMainAdmin(admin.ModelAdmin):
