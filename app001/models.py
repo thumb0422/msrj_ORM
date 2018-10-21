@@ -53,13 +53,13 @@ class OrderMain(models.Model):
     def getGenerateOrderId(preStr):
         return strExtension.generate_orderId(preStr)
 
-    orderId = models.CharField(unique=True, max_length=30, verbose_name='订单ID',default=getGenerateOrderId('OR'))
+    orderId = models.CharField(primary_key=True, max_length=30, verbose_name='订单ID',default=getGenerateOrderId('OR'))
     sumAmount = models.DecimalField(max_digits=13,decimal_places=3,verbose_name='订单总价')
-    isValid = models.BooleanField(default=True, verbose_name='有效')
     comment = models.TextField(verbose_name='备注')
     create_Date = models.DateTimeField(default=timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
     creat_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    isValid = models.BooleanField(default=True, verbose_name='有效')
 
     class Meta:
         db_table = 'orderMain'
@@ -68,6 +68,12 @@ class OrderMain(models.Model):
 
     def __str__(self):
         return self.orderId
+
+    def save(self, *args, **kwargs):
+        # do_something()
+        # self.sumAmount = 1000
+        super(OrderMain, self).save(*args, **kwargs)  # Call the "real" save() method.
+        # do_something_else()
 
 '''订单从表'''
 class OrderDetail(models.Model):

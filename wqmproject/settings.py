@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'bootstrap4',   #pip install django-bootstrap4
-    'appA',
+    # 'appA',
     'appAPI',
     'app001',
 ]
@@ -116,7 +116,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False #True时间会为美国时间
 
 
 # Static files (CSS, JavaScript, Images)

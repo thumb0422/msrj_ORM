@@ -5,7 +5,7 @@ import string
 
 def generate_random_str(randomlength=16):
     str_list = [random.choice(string.digits + string.ascii_letters) for i in range(randomlength)]
-    random_str = ''.join(str_list)
+    random_str = ''.join(str_list).upper()
     return random_str
 
 def generate_orderId(preStr='YY'):

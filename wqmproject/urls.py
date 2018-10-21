@@ -26,8 +26,8 @@ admin.site.site_title = 'CMS管理'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('appA.urls')),
-    url(r'api', include('appAPI.urls')),
+    # url(r'^', include('appA.urls')),
+    # url(r'api', include('appAPI.urls')),
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
 
