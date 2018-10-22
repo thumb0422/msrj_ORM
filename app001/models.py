@@ -54,7 +54,7 @@ class OrderMain(models.Model):
         return strExtension.generate_orderId(preStr)
 
     orderId = models.CharField(primary_key=True, max_length=30, verbose_name='订单ID',default=getGenerateOrderId('OR'))
-    sumAmount = models.DecimalField(max_digits=13,decimal_places=3,verbose_name='订单总价')
+    sumAmount = models.DecimalField(max_digits=13,decimal_places=3,null=True,verbose_name='订单总价')
     comment = models.TextField(verbose_name='备注')
     create_Date = models.DateTimeField(default=timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
@@ -87,4 +87,4 @@ class OrderDetail(models.Model):
         verbose_name_plural = '订单明细'
 
     def __str__(self):
-        return self.orderId
+        return '' #好像不能显示为外健
