@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Sum
 from django.utils import timezone
 from django.conf import settings
 from utility import strExtension
@@ -70,10 +71,14 @@ class OrderMain(models.Model):
         return self.orderId
 
     def save(self, *args, **kwargs):
-        # do_something()
-        # self.sumAmount = 1000
         super(OrderMain, self).save(*args, **kwargs)  # Call the "real" save() method.
-        # do_something_else()
+        # TODO:在此处重新存储好像一直在遍历存储
+        # ammount = 0
+        # for item in OrderDetail.objects.filter(orderId=self.orderId):
+        #     ammount += item.orderCount
+        # mainOrder = OrderMain.objects.get(orderId=self.orderId)
+        # mainOrder.sumAmount = ammount
+        # mainOrder.save()
 
 '''订单从表'''
 class OrderDetail(models.Model):

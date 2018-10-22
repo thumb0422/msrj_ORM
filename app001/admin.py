@@ -48,14 +48,18 @@ class OrderMainAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         '''create_by 修改时为当前用户'''
         obj.creat_by = request.user
-        # tt = OrderDetail.objects.filter(orderId=obj.orderId).aggregate(Sum('orderCount'))
         super().save_model(request, obj, form, change)
+        detailCount = OrderDetail.objects.filter(orderId=obj.orderId).aggregate(Sum('orderCount'))
+        ammount = detailCount['orderCount__sum']
+        mainOrder = OrderMain.objects.get(orderId=obj.orderId)
+        mainOrder.sumAmount = ammount
+        mainOrder.save()
 
     def formateCreateDate(self,obj):
         return obj.create_Date.strftime('%Y/%m/%d %H:%M:%S')
     formateCreateDate.short_description = '创建时间'
     inlines = [OrderDetailInLine,]
-    list_display = ['orderId','comment','formateCreateDate','isValid']
+    list_display = ['orderId','sumAmount','comment','formateCreateDate','isValid']
     readonly_fields = ['orderId','sumAmount']
     fields = ('orderId', 'sumAmount', 'comment', 'isValid')  # 显示可编辑的字段
 
