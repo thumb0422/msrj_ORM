@@ -31,14 +31,14 @@ class ProductInfo(models.Model):
 
     productId = models.CharField(unique=True,max_length=10,blank=False,verbose_name='产品代码')
     name = models.CharField(max_length=100, blank=False,verbose_name='产品名称')
-    typeId = models.ForeignKey(ProductType,to_field='typeId',on_delete=models.CASCADE,verbose_name='所属分类')
+    typeId = models.ForeignKey(ProductType,to_field='typeId',db_column='typeId',on_delete=models.CASCADE,verbose_name='所属分类')
     costPrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='成本价')
     salePrice = models.DecimalField(max_digits=10,decimal_places=3,verbose_name='销售价')
     productImage = models.ImageField(null=True, blank=True, verbose_name='上传图片', upload_to=upload_location)
     isValid = models.BooleanField(default=True, verbose_name='有效')
     create_Date = models.DateTimeField(default = timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
-    creat_by = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, blank=True, on_delete=models.CASCADE)
+    create_by = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, db_column='create_by',blank=True, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'product'
@@ -59,7 +59,7 @@ class OrderMain(models.Model):
     comment = models.TextField(verbose_name='备注')
     create_Date = models.DateTimeField(default=timezone.now)
     update_Date = models.DateTimeField(auto_now=True)
-    creat_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    create_by = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='create_by',null=True, blank=True, on_delete=models.SET_NULL)
     isValid = models.BooleanField(default=True, verbose_name='有效')
 
     class Meta:
@@ -82,7 +82,7 @@ class OrderMain(models.Model):
 
 '''订单从表'''
 class OrderDetail(models.Model):
-    orderId = models.ForeignKey(OrderMain,to_field='orderId',on_delete=models.CASCADE,verbose_name='订单ID')
+    orderId = models.ForeignKey(OrderMain,to_field='orderId',db_column='orderId',on_delete=models.CASCADE,verbose_name='订单ID')
     productId = models.ForeignKey(ProductInfo, to_field='productId', on_delete=models.CASCADE, verbose_name='产品')
     orderCount = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='数量')
 
