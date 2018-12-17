@@ -38,10 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'bootstrap4',   #pip install django-bootstrap4
-    # 'appA',
     'rest_framework',
-    'appAPI',
     'app001',
     'goods',
     'trade',
