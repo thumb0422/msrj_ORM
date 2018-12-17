@@ -1,10 +1,8 @@
 from django.db import models
-from django.utils import timezone
 from utility.strExtension import generate_random_str
 
 # Create your models here.
 class ProductInfo(models.Model):
-    # id = models.IntegerField(primary_key=True,auto_created=True)
     code = models.CharField(max_length=20,unique=True,default=generate_random_str(6))
     name = models.CharField(max_length=50,null=False)
     costPrice = models.DecimalField(max_digits=10,decimal_places=2)
