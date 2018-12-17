@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # 'appA',
     'appAPI',
     'app001',
+    'goods',
 ]
 
 MIDDLEWARE = [
