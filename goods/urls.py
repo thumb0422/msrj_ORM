@@ -9,6 +9,6 @@ from goods import views
 
 
 urlpatterns = [
-    path('goods/', views.goods_list),
-    path('goods/<int:pk>/', views.goods_detail),
+    path('', views.goods_list),
+    path('<int:pk>/', views.goods_detail),
 ]
